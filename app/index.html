@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Decentralised ebay</title>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+ 
+  <script src="./app.js"></script>
+ 
+
+</head>
+
+<body>
+
+  <div class="container">
+    <h3>Enter User Details</h3><br><br>
+      <label for="_userName" class="col-lg-2 control-label">Name</label>
+      <input id="_userName" type="text" required><br><br>
+    
+      <label for="_password" class="col-lg-2 control-label">Password</label>
+      <input id="_password" type="password" required><br><br>
+    
+      <label for="_email" class="col-lg-2 control-label">Email</label>
+      <input id="_email" type="email" required><br><br>
+      
+      <label for="_Laddress" class="col-lg-2 control-label">Address</label>
+      <input id="_Laddress" type="text" required><br><br>
+      
+      <label for="_mobile" class="col-lg-2 control-label">Mobile Number</label>
+      <input id="_mobile" type="number" required><br><br>
+
+      <button id="userRegistration" onclick="App.userRegistration()">Register</button><br><br>
+      
+ </div>
+
+ <div class="container">
+  <h3>Login</h3><br><br>
+    <label for="_usrName" class="col-lg-2 control-label">User Name</label>
+    <input id="_usrName" type="text" required><br><br>
+  
+    <label for="_pwd" class="col-lg-2 control-label">Password</label>
+    <input id="_pwd" type="password" required><br><br>
+
+    <button id="login" onclick="App.login()">Login</button><br><br>
+
+</div>
+
+<div class="container">
+  <h3>Post New Item For Sale</h3><br><br>
+    <label for="_itemName" class="col-lg-2 control-label">Item Name</label>
+    <input id="_itemName" type="text" required><br><br>
+  
+    <label for="_listingType" class="col-lg-2 control-label">Listing Type</label>
+    <input id="_listingType" type="text" required><br><br>
+  
+    <label for="_description" class="col-lg-2 control-label">Description</label>
+    <input id="_description" type="text" required><br><br>
+    
+    <label for="_location" class="col-lg-2 control-label">Location</label>
+    <input id="_location" type="text" required><br><br>
+    
+    <label for="_price" class="col-lg-2 control-label">Price</label>
+    <input id="_price" type="number" required><br><br>
+
+    <button id="userRegistration" onclick="App.itemListing()">Post</button><br><br>
+    
+</div>
+
+<div class="container">
+  <h3>Item Listing</h3><br><br>
+    
+    <label for="itemId" class="col-lg-2 control-label">Item Number</label>
+    <input id="itemId" type="text"><br><br>
+    
+    <button id="getListing" onclick="App.getListing()">View Listing</button><br><br>
+    <div id="items" style="visibility: hidden">
+    <label for="name" class="col-lg-2 control-label">Item Name</label>
+    <input style="border:none;background-color:transparent" id="name" type="text"><br><br>
+
+    <label for="type" class="col-lg-2 control-label">Listing Type</label>
+    <input style="border:none;background-color:transparent" id="type" type="text"><br><br>
+  
+    <label for="des" class="col-lg-2 control-label">Description</label>
+    <input style="border:none;background-color:transparent" id="des" type="text"><br><br>
+    
+    <label for="loc" class="col-lg-2 control-label">Location</label>
+    <input style="border:none;background-color:transparent" id="loc" type="text"><br><br>
+    
+    <label for="price" class="col-lg-2 control-label">Price</label>
+    <input style="border:none;background-color:transparent" id="price" type="number"><br><br>
+
+    <label for="orderno" class="col-lg-2 control-label">Order Number</label>
+    <input style="border:none;background-color:transparent" id="orderno" type="text"><br><br>
+  </div>
+    
+    <input type="button" onclick="App.buy()" value="Buy" style="color:green"> 
+</div>
+
+<div class="container">
+  <h3>Personal Listing</h3><br><br>
+    
+    <button id="viewListingPersonal" onclick="App.viewListingPersonal()">View Personal Listing</button><br><br>
+    <div id="pitems" style="visibility: hidden">
+    <label for="pname" class="col-lg-2 control-label">Item Name</label>
+    <input style="border:none;background-color:transparent" id="pname" type="text"><br><br>
+
+    <label for="ptype" class="col-lg-2 control-label">Listing Type</label>
+    <input style="border:none;background-color:transparent" id="ptype" type="text"><br><br>
+  
+    <label for="pdes" class="col-lg-2 control-label">Description</label>
+    <input style="border:none;background-color:transparent" id="pdes" type="text"><br><br>
+    
+    <label for="ploc" class="col-lg-2 control-label">Location</label>
+    <input style="border:none;background-color:transparent" id="ploc" type="text"><br><br>
+    
+    <label for="ppri" class="col-lg-2 control-label">Price</label>
+    <input style="border:none;background-color:transparent" id="ppri" type="number"><br><br>
+  </div>
+     
+</div>
+
+<div class="container">
+  <h3>Item Listing</h3><br><br>
+
+  <button id="invoice" onclick="App.invoice()">Invoice</button><br><br>
+  <div id="invoice1" style="visibility: hidden">
+  <label for="oname" class="col-lg-2 control-label">Item Name</label>
+  <input style="border:none;background-color:transparent" id="oname" type="text"><br><br>
+  
+  <label for="sdate" class="col-lg-2 control-label">Shipment Date</label>
+  <input style="border:none;background-color:transparent" id="sdate" type="number"><br><br>
+
+  <label for="finalPrice" class="col-lg-2 control-label">Final Price</label>
+  <input style="border:none;background-color:transparent" id="fianlPrice" type="text"><br><br> 
+</div>
+</div>
+<span id="message" />
+</body>
+</html>
