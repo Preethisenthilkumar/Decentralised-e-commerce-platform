@@ -2,6 +2,7 @@ pragma solidity ^0.4.0;
 
 contract ownable {
      address public owner = msg.sender;
+     address constant public banker = 0x0072ba7d8e73fe8eb666ea66babc8116a41bfb10e2;
 
     modifier onlyBy(address _account)
     {
@@ -12,6 +13,7 @@ contract ownable {
 
 contract sell is ownable {
     
+    ///structure for user details
     struct userDetails {
         string userName;
         string _userName;
@@ -22,6 +24,7 @@ contract sell is ownable {
         uint mobile;
     }
     
+    ///structure for item details
     struct itemDetail{
         address seller;
         address buyer;
@@ -33,7 +36,7 @@ contract sell is ownable {
         uint finalPrice;
         uint timestamp;
         Shipment shipment;
-        
+        conditions _condition;
         bool init;
     }
     
@@ -43,26 +46,38 @@ contract sell is ownable {
         uint date;
 
         bool init;
-  }
+    }
   
-  struct Invoice {
-        uint orderno;
-        uint number;
-
-        bool init;
-  }
-    
-     mapping(address => userDetails) Users;    
+     
+     enum conditions{ New, Used, Damaged, None}
+     
+     ///map user details to address
+     mapping(address => userDetails) Users;  
+     
+     ///map item details to seller address
      mapping(address => itemDetail)itemDBP;
+     
+     ///map item details to orderID
      mapping(uint => itemDetail)itemDB;
+     
+     ///map the user balance
      mapping (address => uint) public balances;
-     mapping (uint => Invoice) invoices;
+     
      uint orderId;
      uint invoiceId;
-   
+     
     modifier costs(uint price) {
         require(msg.value>=price);
         _;
+    }
+    
+    modifier depositBuyer {
+        deposit();
+        _;
+    }
+    
+    function deposit() public payable {
+        banker.transfer(10);
     }
     
     event LogUserDetails(string Name, string email, uint mobile,string Laddress );
@@ -90,7 +105,7 @@ contract sell is ownable {
         Users[msg.sender]._password);
    }
     
-    function itemListing(string _name,string _listingtype, string _description, string _location, uint _price) public onlyBy(msg.sender) {
+    function itemListing(string _name,string _listingtype, string _description, string _location, uint _price, conditions c) public onlyBy(msg.sender) depositBuyer{
         
         orderId++;
         itemDB[orderId].seller = msg.sender;
@@ -101,8 +116,9 @@ contract sell is ownable {
         itemDB[orderId].price = _price;
         itemDB[orderId].timestamp = now;
         itemDB[orderId].init = true;
-        itemDBP[msg.sender].seller = msg.sender;
+        itemDB[orderId]._condition = c;
         
+        itemDBP[msg.sender].seller = msg.sender;
         itemDBP[msg.sender].name = _name;
         itemDBP[msg.sender].listingtype = _listingtype;
         itemDBP[msg.sender].description = _description;
@@ -118,7 +134,7 @@ contract sell is ownable {
         
         return (itemDB[_orderId].seller,itemDB[_orderId].name,itemDB[_orderId].listingtype,itemDB[_orderId].description,itemDB[_orderId].location,
         itemDB[_orderId].price,orderId);
-        
+      
     }
     
     function viewListingPersonal(address _address) public view onlyBy(msg.sender) 
@@ -130,10 +146,13 @@ contract sell is ownable {
     
     function buy(uint productid) payable public returns(bool)  {
        require(itemDB[orderId].init == true);
+       
        itemDB[orderId].buyer = msg.sender;
        itemDB[orderId].shipment.price = 5;
        itemDB[orderId].shipment.date = now;
+       
        assert(itemDB[orderId].price + itemDB[orderId].shipment.price == msg.value);
+       
        itemDB[orderId].finalPrice = msg.value;
        balances[msg.sender] -= msg.value;
        balances[itemDB[productid].seller] += msg.value;
